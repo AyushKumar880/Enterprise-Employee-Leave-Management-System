@@ -168,14 +168,3 @@ Run the complete test suite:
 - `EmployeeLeaveManagementApplicationTests`: ApplicationContext startup validation.
 
 ---
-
-## 💼 6. Technical Interview Preparation & Talking Points
-
-### Q1: "How does the leave balance quota and deduction mechanism work?"
-> *"Each employee record maintains quota balances for `CASUAL`, `SICK`, and `ANNUAL` leave types. When an employee submits a leave request, the service layer validates that the requested duration in days does not exceed the available balance for that type. When the administrator approves the leave, the days are automatically deducted in a `@Transactional` boundary. If an approved request is later rejected or deleted, the days are safely restored back to the employee's balance."*
-
-### Q2: "How do you handle audit logging and notifications?"
-> *"I implemented a `NotificationService` that intercepts leave lifecycle events (submission, approval, rejection) and logs simulated email alerts. It persists these events to a `notifications` table, allowing the frontend dashboard to display a live real-time notification drawer and badge without requiring external SMTP configuration."*
-
-### Q3: "How is the CSV export and analytics implemented?"
-> *"For CSV export, the controller returns a `ResponseEntity<byte[]>` with `Content-Disposition: attachment` and `text/csv` MIME type, formatting and escaping all record fields. For analytics, the service layer aggregates data using Java Streams grouping collectors to compute department distributions, leave type frequencies, and overall approval percentages."*
