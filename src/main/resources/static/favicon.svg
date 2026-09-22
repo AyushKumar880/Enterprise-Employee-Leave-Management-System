@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+  </defs>
+  <!-- Background Rounded Rect -->
+  <rect x="4" y="8" width="56" height="52" rx="14" fill="#0f172a" stroke="url(#grad1)" stroke-width="2.5" />
+  <!-- Header Bar -->
+  <path d="M4 22C4 14.268 10.268 8 18 8H46C53.732 8 60 14.268 60 22V24H4V22Z" fill="url(#grad1)" />
+  <!-- Rings on Top -->
+  <rect x="16" y="3" width="6" height="10" rx="3" fill="#ffffff" />
+  <rect x="42" y="3" width="6" height="10" rx="3" fill="#ffffff" />
+  <!-- Calendar Grid Dots -->
+  <circle cx="18" cy="34" r="3" fill="#64748b" />
+  <circle cx="32" cy="34" r="3" fill="#64748b" />
+  <circle cx="46" cy="34" r="3" fill="#64748b" />
+  <!-- Green Checkmark Circle Badge -->
+  <circle cx="42" cy="44" r="14" fill="url(#grad2)" stroke="#0f172a" stroke-width="3" />
+  <path d="M36 44L40 48L48 40" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+</svg>

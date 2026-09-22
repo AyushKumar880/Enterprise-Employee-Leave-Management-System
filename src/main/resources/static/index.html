@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>LeaveFlow Enterprise | Employee Leave Management</title>
+  <meta name="description" content="Enterprise-grade Employee Leave Management System — Track quotas, submit leave requests, approve/reject applications, and visualize analytics.">
+  <meta name="theme-color" content="#0d1220">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <!-- Preconnect for fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons (SVG) -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <!-- Canvas Confetti for celebration moments -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<!-- Skip to main content (accessibility) -->
+<a href="#main-content" class="skip-to-main">Skip to main content</a>
+
+<!-- Ambient glow orbs -->
+<div class="bg-glow bg-glow-1" aria-hidden="true"></div>
+<div class="bg-glow bg-glow-2" aria-hidden="true"></div>
+
+<!-- Mobile sidebar overlay -->
+<div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+<!-- ═══════════════════════════════════════
+     APP SHELL
+════════════════════════════════════════ -->
+<div class="app-shell">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar" id="app-sidebar" aria-label="Main navigation">
+
+    <!-- Brand Header -->
+    <div class="sidebar-header">
+      <a href="#" class="brand-wrapper" aria-label="LeaveFlow Enterprise home">
+        <div class="brand-logo-icon" aria-hidden="true">
+          <i data-lucide="calendar-check-2"></i>
+        </div>
+        <div class="brand-details">
+          <span class="brand-name">
+            LeaveFlow
+            <span class="brand-tag">SaaS</span>
+          </span>
+          <span class="brand-sub">Enterprise HR Suite</span>
+        </div>
+      </a>
+      <button class="sidebar-collapse-btn" id="sidebar-collapse-btn"
+              title="Collapse sidebar" aria-label="Toggle sidebar width">
+        <i data-lucide="chevrons-left"></i>
+      </button>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav" role="navigation" aria-label="Application sections">
+
+      <!-- Core -->
+      <div class="nav-group">
+        <span class="nav-label" aria-hidden="true">Workspace</span>
+
+        <button class="nav-btn active" data-tab="dashboard-tab" id="nav-dashboard" aria-label="Dashboard">
+          <div class="nav-btn-left">
+            <i data-lucide="layout-dashboard"></i>
+            <span class="nav-btn-text">Dashboard</span>
+          </div>
+        </button>
+
+        <button class="nav-btn" data-tab="employee-tab" id="nav-apply" aria-label="Apply for leave">
+          <div class="nav-btn-left">
+            <i data-lucide="plane-takeoff"></i>
+            <span class="nav-btn-text">Apply Leave</span>
+          </div>
+        </button>
+
+        <button class="nav-btn" data-tab="my-leaves-tab" id="nav-myleaves" aria-label="My leave requests">
+          <div class="nav-btn-left">
+            <i data-lucide="calendar-range"></i>
+            <span class="nav-btn-text">My Leaves</span>
+          </div>
+        </button>
+
+        <button class="nav-btn" data-tab="admin-tab" id="nav-approvals" aria-label="Leave approvals">
+          <div class="nav-btn-left">
+            <i data-lucide="clipboard-check"></i>
+            <span class="nav-btn-text">Approvals</span>
+          </div>
+          <span class="nav-count-pill" id="tab-pending-badge" aria-label="Pending approvals count">0</span>
+        </button>
+      </div>
+
+      <!-- Organization -->
+      <div class="nav-group">
+        <span class="nav-label" aria-hidden="true">Organization</span>
+
+        <button class="nav-btn" data-tab="directory-tab" id="nav-employees" aria-label="Employee directory">
+          <div class="nav-btn-left">
+            <i data-lucide="users"></i>
+            <span class="nav-btn-text">Employees</span>
+          </div>
+        </button>
+
+        <button class="nav-btn" data-tab="calendar-tab" id="nav-calendar" aria-label="Team schedule calendar">
+          <div class="nav-btn-left">
+            <i data-lucide="calendar-days"></i>
+            <span class="nav-btn-text">Team Schedule</span>
+          </div>
+        </button>
+
+        <button class="nav-btn" data-tab="analytics-tab" id="nav-analytics" aria-label="Analytics and insights">
+          <div class="nav-btn-left">
+            <i data-lucide="bar-chart-3"></i>
+            <span class="nav-btn-text">Analytics</span>
+          </div>
+        </button>
+      </div>
+
+      <!-- System -->
+      <div class="nav-group">
+        <span class="nav-label" aria-hidden="true">System</span>
+
+        <button class="nav-btn" data-tab="notifications-tab" id="nav-notifications" aria-label="Notification center">
+          <div class="nav-btn-left">
+            <i data-lucide="bell"></i>
+            <span class="nav-btn-text">Notifications</span>
+          </div>
+        </button>
+
+        <button class="nav-btn" data-tab="reports-tab" id="nav-reports" aria-label="Reports and export">
+          <div class="nav-btn-left">
+            <i data-lucide="file-spreadsheet"></i>
+            <span class="nav-btn-text">Reports & Export</span>
+          </div>
+        </button>
+
+        <button class="nav-btn" data-tab="settings-tab" id="nav-settings" aria-label="System settings">
+          <div class="nav-btn-left">
+            <i data-lucide="settings"></i>
+            <span class="nav-btn-text">Settings</span>
+          </div>
+        </button>
+
+        <button class="nav-btn" data-tab="architecture-tab" id="nav-arch" aria-label="API architecture reference">
+          <div class="nav-btn-left">
+            <i data-lucide="layers"></i>
+            <span class="nav-btn-text">Architecture</span>
+          </div>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer">
+      <button class="health-indicator" id="health-indicator-btn"
+              title="View server health diagnostics" aria-label="Server health status">
+        <span class="status-dot" id="status-dot" aria-label="Server online"></span>
+        <span class="health-text" id="status-text">Operational</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ── MAIN WRAPPER ── -->
+  <div class="main-wrapper">
+
+    <!-- TOP HEADER -->
+    <header class="top-header" role="banner">
+      <div class="header-left">
+        <!-- Mobile hamburger -->
+        <button class="mobile-nav-btn" id="mobile-nav-btn" aria-label="Open navigation menu" aria-expanded="false">
+          <i data-lucide="menu"></i>
+        </button>
+        <!-- Page breadcrumb -->
+        <div class="page-breadcrumb">
+          <h1 class="page-title" id="page-title">Overview Dashboard</h1>
+          <span class="page-subtitle" id="page-subtitle">Enterprise Leave Management System</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <!-- Global Search -->
+        <div class="search-wrapper" role="search">
+          <i data-lucide="search" class="search-icon" aria-hidden="true"></i>
+          <input type="search" class="search-input" id="global-search"
+                 placeholder="Search employees, leaves…" aria-label="Search globally"
+                 autocomplete="off" spellcheck="false">
+        </div>
+
+        <!-- Apply Leave CTA -->
+        <button class="header-btn primary" id="btn-quick-apply"
+                title="Apply for leave" aria-label="Apply for leave">
+          <i data-lucide="plus"></i>
+          <span>Apply Leave</span>
+        </button>
+
+        <!-- Notifications Bell -->
+        <div class="dropdown-wrapper">
+          <button class="header-btn icon-only" id="btn-bell"
+                  title="Notifications" aria-label="Open notifications" aria-haspopup="true" aria-expanded="false">
+            <i data-lucide="bell"></i>
+            <span class="notif-count-badge" id="notif-badge" aria-label="Unread notifications">0</span>
+          </button>
+          <div class="notif-dropdown" id="notif-dropdown" role="region" aria-label="Notifications panel">
+            <div class="notif-dropdown-header">
+              <div class="notif-dropdown-title">
+                <i data-lucide="inbox"></i>
+                <span>Notifications</span>
+              </div>
+              <button class="btn-link" id="btn-mark-all-read">Mark all read</button>
+            </div>
+            <div class="notif-list" id="notif-list" role="list">
+              <div class="empty-state" style="padding: 24px 16px;">
+                <i data-lucide="inbox"></i>
+                <p>No notifications yet</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile Dropdown -->
+        <div class="dropdown-wrapper">
+          <button class="profile-btn" id="profile-btn"
+                  aria-haspopup="true" aria-expanded="false" aria-label="User profile menu">
+            <div class="avatar" id="header-avatar">AK</div>
+            <div class="profile-info">
+              <span class="profile-name" id="header-username">Ayush Kumar</span>
+              <span class="profile-role">HR Super Admin</span>
+            </div>
+            <i data-lucide="chevron-down" style="width:13px;height:13px;color:var(--text-muted);margin-left:2px;"></i>
+          </button>
+          <div class="dropdown-menu" id="profile-dropdown" role="menu">
+            <button class="dropdown-item" id="btn-theme-toggle" role="menuitem">
+              <i data-lucide="sun" id="icon-sun" style="display:none;"></i>
+              <i data-lucide="moon" id="icon-moon"></i>
+              <span id="theme-label">Switch to Light</span>
+            </button>
+            <button class="dropdown-item" id="btn-reset-demo" role="menuitem">
+              <i data-lucide="sparkles"></i>
+              <span>Reset Demo Data</span>
+            </button>
+            <div class="dropdown-divider" role="separator"></div>
+            <button class="dropdown-item" onclick="switchTab('settings-tab')" role="menuitem">
+              <i data-lucide="settings"></i>
+              <span>Settings</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ══════════════════════════════════════
+         MAIN CONTENT
+    ═══════════════════════════════════════ -->
+    <main class="content-area" id="main-content" role="main">
+
+      <!-- ══ 1. DASHBOARD ══ -->
+      <section id="dashboard-tab" class="tab-pane active" aria-label="Dashboard overview">
+
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+          <div class="welcome-text">
+            <h1>Welcome back, Ayush! 👋</h1>
+            <p>Here's your company-wide leave summary, quota tracking, and pending supervisor reviews for today.</p>
+          </div>
+          <div class="welcome-actions">
+            <button class="btn btn-primary" id="btn-hero-apply">
+              <i data-lucide="plus-circle"></i>
+              <span>New Leave Request</span>
+            </button>
+            <button class="btn btn-outline" onclick="switchTab('analytics-tab')">
+              <i data-lucide="bar-chart-3"></i>
+              <span>Analytics</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="stats-grid" id="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon icon-blue"><i data-lucide="users"></i></div>
+            <div class="stat-body">
+              <span class="stat-label">Total Employees</span>
+              <span class="stat-value" id="count-employees">—</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-purple"><i data-lucide="calendar"></i></div>
+            <div class="stat-body">
+              <span class="stat-label">Total Requests</span>
+              <span class="stat-value" id="count-total-leaves">—</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-amber"><i data-lucide="clock"></i></div>
+            <div class="stat-body">
+              <span class="stat-label">Pending Review</span>
+              <span class="stat-value" id="count-pending-leaves">—</span>
+            </div>
+            <span class="stat-badge">Action needed</span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-green"><i data-lucide="check-circle-2"></i></div>
+            <div class="stat-body">
+              <span class="stat-label">Approved</span>
+              <span class="stat-value" id="count-approved-leaves">—</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-rose"><i data-lucide="x-circle"></i></div>
+            <div class="stat-body">
+              <span class="stat-label">Rejected</span>
+              <span class="stat-value" id="count-rejected-leaves">—</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Two-column overview -->
+        <div class="grid-2">
+          <!-- Pending Approvals -->
+          <div class="panel">
+            <div class="panel-body">
+              <div class="panel-header">
+                <div class="panel-title">
+                  <h2>Pending Approvals</h2>
+                  <p>Requests awaiting your review</p>
+                </div>
+                <button class="btn btn-outline btn-sm" id="btn-goto-approvals">View All</button>
+              </div>
+              <div class="table-container">
+                <table class="data-table" aria-label="Pending leave requests">
+                  <thead>
+                    <tr>
+                      <th>Employee</th>
+                      <th>Type</th>
+                      <th class="col-number">Days</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="overview-pending-tbody">
+                    <tr class="table-empty-row">
+                      <td colspan="4">
+                        <div class="table-loading-state">
+                          <div class="spinner sm"></div>
+                          <span>Loading…</span>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Upcoming Team Leaves -->
+          <div class="panel">
+            <div class="panel-body">
+              <div class="panel-header">
+                <div class="panel-title">
+                  <h2>Upcoming Team Leaves</h2>
+                  <p>Approved leaves in the coming weeks</p>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="switchTab('calendar-tab')">Calendar</button>
+              </div>
+              <div id="overview-upcoming-list" style="display:flex;flex-direction:column;gap:8px;">
+                <div class="empty-state" style="padding:20px 0;">
+                  <i data-lucide="calendar-check"></i>
+                  <p>Loading upcoming leaves…</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ══ 2. APPLY LEAVE ══ -->
+      <section id="employee-tab" class="tab-pane" aria-label="Apply for leave">
+        <div class="grid-2">
+
+          <!-- Left: Application Form -->
+          <div class="panel">
+            <div class="panel-body">
+              <div class="panel-header">
+                <div class="panel-title">
+                  <h2>Submit Leave Application</h2>
+                  <p>Select employee, leave type, dates, and preview balance.</p>
+                </div>
+              </div>
+
+              <form id="leave-apply-form" class="form-stack" novalidate>
+
+                <!-- Employee Select -->
+                <div class="form-group">
+                  <label class="form-label" for="leave-emp-select">
+                    Employee Profile <span class="required" aria-hidden="true">*</span>
+                  </label>
+                  <select id="leave-emp-select" class="form-control" required aria-required="true">
+                    <option value="">— Select employee profile —</option>
+                  </select>
+                </div>
+
+                <!-- Balance Chips (shown after employee selected) -->
+                <div class="balance-section" id="balance-section" style="display:none;">
+                  <div class="balance-section-header">
+                    <span class="section-eyebrow">Available Balances</span>
+                    <span class="section-hint">Selecting dates simulates deductions</span>
+                  </div>
+                  <div class="balance-chips">
+                    <div class="balance-chip" id="chip-casual">
+                      <div class="chip-header">
+                        <span class="chip-type"><i data-lucide="coffee"></i> Casual</span>
+                        <span class="chip-value" id="bal-casual">12</span>
+                      </div>
+                      <div class="progress-bar"><div class="progress-fill fill-blue" id="prog-casual" style="width:100%;"></div></div>
+                      <span class="chip-footer" id="foot-casual">12 days remaining</span>
+                    </div>
+                    <div class="balance-chip" id="chip-sick">
+                      <div class="chip-header">
+                        <span class="chip-type"><i data-lucide="stethoscope"></i> Sick</span>
+                        <span class="chip-value" id="bal-sick">10</span>
+                      </div>
+                      <div class="progress-bar"><div class="progress-fill fill-rose" id="prog-sick" style="width:100%;"></div></div>
+                      <span class="chip-footer" id="foot-sick">10 days remaining</span>
+                    </div>
+                    <div class="balance-chip" id="chip-annual">
+                      <div class="chip-header">
+                        <span class="chip-type"><i data-lucide="palmtree"></i> Annual</span>
+                        <span class="chip-value" id="bal-annual">15</span>
+                      </div>
+                      <div class="progress-bar"><div class="progress-fill fill-green" id="prog-annual" style="width:100%;"></div></div>
+                      <span class="chip-footer" id="foot-annual">15 days remaining</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Leave Type -->
+                <div class="form-group">
+                  <label class="form-label">Leave Category <span class="required" aria-hidden="true">*</span></label>
+                  <div class="leave-type-grid" role="radiogroup" aria-label="Leave type">
+                    <label class="leave-type-option">
+                      <input type="radio" name="leaveType" value="CASUAL" checked aria-label="Casual leave">
+                      <span class="leave-type-label"><i data-lucide="coffee"></i> Casual</span>
+                    </label>
+                    <label class="leave-type-option">
+                      <input type="radio" name="leaveType" value="SICK" aria-label="Sick leave">
+                      <span class="leave-type-label"><i data-lucide="stethoscope"></i> Sick</span>
+                    </label>
+                    <label class="leave-type-option">
+                      <input type="radio" name="leaveType" value="ANNUAL" aria-label="Annual leave">
+                      <span class="leave-type-label"><i data-lucide="palmtree"></i> Annual</span>
+                    </label>
+                    <label class="leave-type-option">
+                      <input type="radio" name="leaveType" value="EMERGENCY" aria-label="Emergency leave">
+                      <span class="leave-type-label"><i data-lucide="alert-triangle"></i> Emergency</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Date Range -->
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="leave-start">Start Date <span class="required" aria-hidden="true">*</span></label>
+                    <input type="date" id="leave-start" class="form-control" required aria-required="true">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="leave-end">End Date <span class="required" aria-hidden="true">*</span></label>
+                    <input type="date" id="leave-end" class="form-control" required aria-required="true">
+                  </div>
+                </div>
+
+                <!-- Duration Preview Alert -->
+                <div class="alert-banner" id="duration-preview" role="status" aria-live="polite">
+                  <i data-lucide="info"></i>
+                  <span>Select start and end dates to calculate duration</span>
+                </div>
+
+                <!-- Reason -->
+                <div class="form-group">
+                  <label class="form-label" for="leave-reason">
+                    Reason for Leave <span class="required" aria-hidden="true">*</span>
+                  </label>
+                  <textarea id="leave-reason" class="form-control" rows="3"
+                            placeholder="Describe the reason clearly for HR review…"
+                            required aria-required="true"
+                            minlength="3" maxlength="500"></textarea>
+                  <div class="char-counter">
+                    <span id="reason-char-count">0</span> / 500
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block" id="btn-submit-leave">
+                  <i data-lucide="send"></i>
+                  <span>Submit Leave Request</span>
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Right: Employee History -->
+          <div class="panel">
+            <div class="panel-body">
+              <div class="panel-header">
+                <div class="panel-title">
+                  <h2 id="history-title">Leave History</h2>
+                  <p id="history-subtitle">Select an employee to view their past requests.</p>
+                </div>
+              </div>
+              <div class="timeline" id="history-list">
+                <div class="empty-state">
+                  <i data-lucide="user-check"></i>
+                  <h4>No Employee Selected</h4>
+                  <p>Choose an employee profile from the dropdown to inspect leave history.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ══ 3. MY LEAVES ══ -->
+      <section id="my-leaves-tab" class="tab-pane" aria-label="My leave requests">
+        <div class="panel">
+          <div class="panel-body">
+            <div class="panel-header">
+              <div class="panel-title">
+                <h2>My Leave Requests</h2>
+                <p>Search, filter, and inspect your leave application history.</p>
+              </div>
+              <div class="panel-actions">
+                <div class="search-box">
+                  <i data-lucide="search" class="search-box-icon"></i>
+                  <input type="search" class="form-control" id="myleaves-search"
+                         placeholder="Search reason, type…" aria-label="Search my leaves">
+                </div>
+                <select id="myleaves-status" class="form-control" style="width:auto;" aria-label="Filter by status">
+                  <option value="ALL">All Statuses</option>
+                  <option value="PENDING">Pending</option>
+                  <option value="APPROVED">Approved</option>
+                  <option value="REJECTED">Rejected</option>
+                </select>
+                <select id="myleaves-type" class="form-control" style="width:auto;" aria-label="Filter by type">
+                  <option value="ALL">All Types</option>
+                  <option value="CASUAL">Casual</option>
+                  <option value="SICK">Sick</option>
+                  <option value="ANNUAL">Annual</option>
+                  <option value="EMERGENCY">Emergency</option>
+                </select>
+                <select id="myleaves-sort" class="form-control" style="width:auto;" aria-label="Sort order">
+                  <option value="NEWEST">Newest First</option>
+                  <option value="OLDEST">Oldest First</option>
+                  <option value="DAYS">Longest Duration</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table class="data-table" aria-label="My leave requests table">
+                <thead>
+                  <tr>
+                    <th class="col-id">#</th>
+                    <th>Employee</th>
+                    <th>Type</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th class="col-number">Days</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Manager Note</th>
+                    <th class="col-actions">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="myleaves-tbody">
+                  <tr class="table-empty-row">
+                    <td colspan="10">
+                      <div class="table-loading-state">
+                        <div class="spinner sm"></div>
+                        <span>Loading leave records…</span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 4. APPROVALS ══ -->
+      <section id="admin-tab" class="tab-pane" aria-label="Leave approvals management">
+        <div class="panel">
+          <div class="panel-body">
+            <div class="panel-header">
+              <div class="panel-title">
+                <h2>Leave Approvals Center</h2>
+                <p>Approve or reject employee applications with remarks and quota deductions.</p>
+              </div>
+              <div class="panel-actions">
+                <div class="search-box">
+                  <i data-lucide="search" class="search-box-icon"></i>
+                  <input type="search" class="form-control" id="approvals-search"
+                         placeholder="Search employee, dept…" aria-label="Search approvals">
+                </div>
+                <div class="filter-tabs" role="tablist" aria-label="Filter by status">
+                  <button class="filter-tab active" data-status="ALL" role="tab" aria-selected="true">
+                    All (<span id="filter-all-count">0</span>)
+                  </button>
+                  <button class="filter-tab" data-status="PENDING" role="tab" aria-selected="false">
+                    Pending (<span id="filter-pending-count">0</span>)
+                  </button>
+                  <button class="filter-tab" data-status="APPROVED" role="tab" aria-selected="false">
+                    Approved (<span id="filter-approved-count">0</span>)
+                  </button>
+                  <button class="filter-tab" data-status="REJECTED" role="tab" aria-selected="false">
+                    Rejected (<span id="filter-rejected-count">0</span>)
+                  </button>
+                </div>
+                <button class="btn btn-outline btn-sm" id="btn-export-csv">
+                  <i data-lucide="download"></i>
+                  <span>CSV</span>
+                </button>
+                <button class="btn btn-ghost btn-icon" id="btn-refresh-leaves" title="Refresh" aria-label="Refresh leave list">
+                  <i data-lucide="rotate-cw"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table class="data-table" id="approvals-table" aria-label="Leave applications management table">
+                <thead>
+                  <tr>
+                    <th class="col-id">#</th>
+                    <th>Employee</th>
+                    <th>Dept</th>
+                    <th>Type</th>
+                    <th>Period</th>
+                    <th class="col-number">Days</th>
+                    <th>Reason</th>
+                    <th>Remarks</th>
+                    <th>Applied On</th>
+                    <th>Status</th>
+                    <th class="col-actions">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="approvals-tbody">
+                  <tr class="table-empty-row">
+                    <td colspan="11">
+                      <div class="table-loading-state">
+                        <div class="spinner sm"></div>
+                        <span>Loading records…</span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 5. EMPLOYEES ══ -->
+      <section id="directory-tab" class="tab-pane" aria-label="Employee directory">
+        <div class="panel">
+          <div class="panel-body">
+            <div class="panel-header">
+              <div class="panel-title">
+                <h2>Employee Directory</h2>
+                <p>Manage staff profiles, departments, designations, and leave quotas.</p>
+              </div>
+              <div class="panel-actions">
+                <div class="search-box">
+                  <i data-lucide="search" class="search-box-icon"></i>
+                  <input type="search" class="form-control" id="emp-search"
+                         placeholder="Search name, email, dept…" aria-label="Search employees">
+                </div>
+                <select id="emp-dept-filter" class="form-control" style="width:auto;" aria-label="Filter by department">
+                  <option value="ALL">All Departments</option>
+                </select>
+                <button class="btn btn-primary" id="btn-add-employee">
+                  <i data-lucide="user-plus"></i>
+                  <span>Add Employee</span>
+                </button>
+              </div>
+            </div>
+            <div class="emp-grid" id="emp-grid" aria-label="Employee cards">
+              <!-- Skeleton placeholders while loading -->
+              <div class="skeleton-card"><div class="skeleton skeleton-avatar"></div><div class="skeleton-lines"><div class="skeleton skeleton-title" style="width:60%;"></div><div class="skeleton skeleton-text" style="width:80%;"></div></div></div>
+              <div class="skeleton-card"><div class="skeleton skeleton-avatar"></div><div class="skeleton-lines"><div class="skeleton skeleton-title" style="width:55%;"></div><div class="skeleton skeleton-text" style="width:75%;"></div></div></div>
+              <div class="skeleton-card"><div class="skeleton skeleton-avatar"></div><div class="skeleton-lines"><div class="skeleton skeleton-title" style="width:65%;"></div><div class="skeleton skeleton-text" style="width:70%;"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 6. ANALYTICS ══ -->
+      <section id="analytics-tab" class="tab-pane" aria-label="Analytics and visualizations">
+        <div class="panel">
+          <div class="panel-body">
+            <div class="panel-header">
+              <div class="panel-title">
+                <h2>Analytics &amp; Insights</h2>
+                <p>Real-time leave metrics, approval ratios, and department utilization.</p>
+              </div>
+              <button class="btn btn-ghost btn-icon" id="btn-refresh-analytics" title="Refresh analytics" aria-label="Refresh analytics data">
+                <i data-lucide="rotate-cw"></i>
+              </button>
+            </div>
+
+            <!-- Analytics KPI row -->
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-icon icon-indigo"><i data-lucide="bar-chart-2"></i></div>
+                <div class="stat-body">
+                  <span class="stat-label">Approval Rate</span>
+                  <span class="stat-value" id="analytics-rate">0%</span>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon icon-green"><i data-lucide="check-circle-2"></i></div>
+                <div class="stat-body">
+                  <span class="stat-label">Approved</span>
+                  <span class="stat-value" id="analytics-approved">0</span>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon icon-rose"><i data-lucide="x-circle"></i></div>
+                <div class="stat-body">
+                  <span class="stat-label">Rejected</span>
+                  <span class="stat-value" id="analytics-rejected">0</span>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon icon-amber"><i data-lucide="clock"></i></div>
+                <div class="stat-body">
+                  <span class="stat-label">Pending</span>
+                  <span class="stat-value" id="analytics-pending">0</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- SVG Charts Row -->
+            <div class="grid-3">
+              <!-- Donut Chart -->
+              <div class="panel" style="border-radius:var(--radius-lg);">
+                <div class="panel-body" style="gap:0;">
+                  <div class="chart-header">
+                    <span class="chart-title">Leave Usage by Type</span>
+                  </div>
+                  <div id="chart-donut" style="display:flex;flex-direction:column;align-items:center;gap:14px;"></div>
+                </div>
+              </div>
+
+              <!-- Bar Chart -->
+              <div class="panel" style="border-radius:var(--radius-lg);">
+                <div class="panel-body" style="gap:0;">
+                  <div class="chart-header">
+                    <span class="chart-title">Leaves by Department</span>
+                  </div>
+                  <div id="chart-bar" class="bar-chart-container"></div>
+                </div>
+              </div>
+
+              <!-- Line Chart -->
+              <div class="panel" style="border-radius:var(--radius-lg);">
+                <div class="panel-body" style="gap:0;">
+                  <div class="chart-header">
+                    <span class="chart-title">Monthly Trend</span>
+                  </div>
+                  <div id="chart-line" style="display:flex;align-items:center;justify-content:center;height:200px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 7. TEAM CALENDAR ══ -->
+      <section id="calendar-tab" class="tab-pane" aria-label="Team schedule calendar">
+        <div class="panel">
+          <div class="panel-body">
+            <div class="panel-header">
+              <div class="panel-title">
+                <h2>Team Schedule</h2>
+                <p>Out-of-office visibility and leave coverage map.</p>
+              </div>
+              <div class="panel-actions">
+                <div class="cal-nav" aria-label="Calendar navigation">
+                  <button class="btn btn-outline btn-sm" id="cal-prev" aria-label="Previous month">
+                    <i data-lucide="chevron-left"></i> Prev
+                  </button>
+                  <h3 class="cal-month" id="cal-month-title" aria-live="polite">September 2026</h3>
+                  <button class="btn btn-outline btn-sm" id="cal-next" aria-label="Next month">
+                    Next <i data-lucide="chevron-right"></i>
+                  </button>
+                  <button class="btn btn-secondary btn-sm" id="cal-today" aria-label="Go to today">Today</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="cal-legend" aria-label="Calendar legend">
+              <span class="legend-dot-row"><span class="legend-dot" style="background:var(--accent-green);"></span> Approved</span>
+              <span class="legend-dot-row"><span class="legend-dot" style="background:var(--accent-amber);"></span> Pending</span>
+              <span class="legend-dot-row"><span class="legend-dot" style="background:var(--accent-indigo);"></span> Today</span>
+            </div>
+
+            <div class="calendar-grid-wrapper" role="grid" aria-label="Monthly leave calendar">
+              <div class="cal-header-row" role="row" aria-label="Days of the week">
+                <div role="columnheader" aria-label="Sunday">Sun</div>
+                <div role="columnheader" aria-label="Monday">Mon</div>
+                <div role="columnheader" aria-label="Tuesday">Tue</div>
+                <div role="columnheader" aria-label="Wednesday">Wed</div>
+                <div role="columnheader" aria-label="Thursday">Thu</div>
+                <div role="columnheader" aria-label="Friday">Fri</div>
+                <div role="columnheader" aria-label="Saturday">Sat</div>
+              </div>
+              <div class="cal-grid" id="cal-grid" role="rowgroup">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 8. NOTIFICATIONS CENTER ══ -->
+      <section id="notifications-tab" class="tab-pane" aria-label="Notifications center">
+        <div class="panel">
+          <div class="panel-body">
+            <div class="panel-header">
+              <div class="panel-title">
+                <h2>Notification Center</h2>
+                <p>System events, email dispatches, and manager decision audit trail.</p>
+              </div>
+              <button class="btn btn-secondary btn-sm" id="btn-notif-mark-all">
+                <i data-lucide="check-check"></i>
+                <span>Mark all read</span>
+              </button>
+            </div>
+            <div id="notif-stream" style="display:flex;flex-direction:column;gap:10px;" role="list" aria-label="Notification stream">
+              <div class="empty-state">
+                <i data-lucide="bell-off"></i>
+                <h4>No Notifications</h4>
+                <p>Notification events will appear here after leave actions.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 9. REPORTS & EXPORT ══ -->
+      <section id="reports-tab" class="tab-pane" aria-label="Reports and CSV export">
+        <div class="panel">
+          <div class="panel-body">
+            <div class="panel-header">
+              <div class="panel-title">
+                <h2>Reports &amp; Export</h2>
+                <p>Download HR audit logs and leave records as CSV spreadsheets.</p>
+              </div>
+              <button class="btn btn-primary" id="btn-export-csv-reports">
+                <i data-lucide="download"></i>
+                <span>Export CSV</span>
+              </button>
+            </div>
+
+            <div class="sub-panel" style="display:flex;align-items:flex-start;gap:18px;">
+              <div class="stat-icon icon-green" style="flex-shrink:0;"><i data-lucide="file-spreadsheet"></i></div>
+              <div>
+                <h3 style="font-size:0.96rem;font-weight:800;color:var(--text-primary);margin-bottom:6px;">Download Audit Spreadsheet</h3>
+                <p style="font-size:0.84rem;color:var(--text-muted);line-height:1.6;">
+                  Export all employee leave requests formatted for Excel or Google Sheets.
+                  Includes leave types, dates, duration, employee email, department, manager remarks, and approval status.
+                  File is served directly from the Spring Boot backend via <code>GET /api/leaves/export</code>.
+                </p>
+                <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+                  <button class="btn btn-primary" id="btn-export-csv-2">
+                    <i data-lucide="download"></i>
+                    <span>Download Now</span>
+                  </button>
+                  <button class="btn btn-outline" onclick="switchTab('analytics-tab')">
+                    <i data-lucide="bar-chart-3"></i>
+                    <span>View Analytics</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 10. SETTINGS ══ -->
+      <section id="settings-tab" class="tab-pane" aria-label="System settings">
+        <div class="grid-2">
+
+          <!-- Profile Card -->
+          <div class="panel">
+            <div class="panel-body">
+              <div class="panel-title" style="margin-bottom:18px;">
+                <h2>User Profile</h2>
+                <p>Your account information and role.</p>
+              </div>
+              <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;">
+                <div class="avatar lg">AK</div>
+                <div>
+                  <div style="font-size:1rem;font-weight:800;color:var(--text-primary);">Ayush Kumar</div>
+                  <div style="font-size:0.78rem;color:var(--text-muted);margin-top:2px;">ayush@example.com &bull; HR Super Admin</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="settings-role">Role</label>
+                <input type="text" id="settings-role" class="form-control" value="Super Administrator" readonly aria-readonly="true">
+              </div>
+              <div class="form-group" style="margin-top:10px;">
+                <label class="form-label" for="settings-db">Database</label>
+                <input type="text" id="settings-db" class="form-control" value="H2 In-Memory (dev)" readonly aria-readonly="true">
+              </div>
+            </div>
+          </div>
+
+          <!-- Preferences Card -->
+          <div class="panel">
+            <div class="panel-body">
+              <div class="panel-title" style="margin-bottom:18px;">
+                <h2>Preferences</h2>
+                <p>Configure display and data options.</p>
+              </div>
+              <div class="settings-row">
+                <div class="settings-info">
+                  <span class="settings-label">Dark / Light Theme</span>
+                  <span class="settings-desc">Toggle the application colour scheme</span>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="document.getElementById('btn-theme-toggle').click()">Toggle Theme</button>
+              </div>
+              <div class="settings-row">
+                <div class="settings-info">
+                  <span class="settings-label">Reset Demo Data</span>
+                  <span class="settings-desc">Reload sample employees and leave requests</span>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="document.getElementById('btn-reset-demo').click()">Reset</button>
+              </div>
+              <div class="settings-row">
+                <div class="settings-info">
+                  <span class="settings-label">Server Health</span>
+                  <span class="settings-desc">View JVM memory, latency, and uptime</span>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="document.getElementById('health-indicator-btn').click()">Diagnostics</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ══ 11. ARCHITECTURE ══ -->
+      <section id="architecture-tab" class="tab-pane" aria-label="System architecture and API reference">
+        <div class="panel">
+          <div class="panel-body">
+            <div class="panel-header">
+              <div class="panel-title">
+                <h2>Architecture &amp; REST API Reference</h2>
+                <p>Spring Boot 3 / Java 17 layered architecture overview and OpenAPI endpoints.</p>
+              </div>
+              <span class="db-badge" id="database-badge-text">H2 DB</span>
+            </div>
+
+            <!-- Architecture flow diagram (text) -->
+            <div class="sub-panel" style="font-size:0.84rem;line-height:1.8;color:var(--text-secondary);">
+              <div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--accent-blue);">
+                Controller → Service → Repository → JPA/Hibernate → H2 / MySQL Database
+              </div>
+              <div style="margin-top:10px;color:var(--text-muted);">
+                Active profile: <strong style="color:var(--accent-purple);">dev</strong> (H2 in-memory) &bull;
+                Switch to <code>mysql</code> profile for production. &bull;
+                All endpoints return <code>ApiResponse&lt;T&gt;</code> envelope with <code>success</code>, <code>data</code>, and <code>message</code>.
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table class="data-table" aria-label="REST API endpoints reference">
+                <thead>
+                  <tr>
+                    <th>Method</th>
+                    <th>Endpoint</th>
+                    <th>Description</th>
+                    <th>Auth Required</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td><span class="badge badge-http-get">GET</span></td><td><code>/api/employees</code></td><td>List all employees with leave balances</td><td style="color:var(--text-muted);">No</td></tr>
+                  <tr><td><span class="badge badge-http-post">POST</span></td><td><code>/api/employees</code></td><td>Create a new employee profile</td><td style="color:var(--text-muted);">No</td></tr>
+                  <tr><td><span class="badge badge-http-delete">DELETE</span></td><td><code>/api/employees/{id}</code></td><td>Delete employee and cascade leave records</td><td style="color:var(--text-muted);">No</td></tr>
+                  <tr><td><span class="badge badge-http-get">GET</span></td><td><code>/api/leaves</code></td><td>List all leave requests</td><td style="color:var(--text-muted);">No</td></tr>
+                  <tr><td><span class="badge badge-http-post">POST</span></td><td><code>/api/leaves</code></td><td>Submit a new leave application</td><td style="color:var(--text-muted);">No</td></tr>
+                  <tr><td><span class="badge badge-http-patch">PATCH</span></td><td><code>/api/leaves/{id}/status</code></td><td>Approve or reject leave with remarks</td><td style="color:var(--text-muted);">No</td></tr>
+                  <tr><td><span class="badge badge-http-get">GET</span></td><td><code>/api/leaves/employee/{id}</code></td><td>Get leave history for specific employee</td><td style="color:var(--text-muted);">No</td></tr>
+                  <tr><td><span class="badge badge-http-get">GET</span></td><td><code>/api/leaves/analytics</code></td><td>Aggregated analytics data for charts</td><td style="color:var(--text-muted);">No</td></tr>
+                  <tr><td><span class="badge badge-http-get">GET</span></td><td><code>/api/leaves/export</code></td><td>Download CSV audit spreadsheet</td><td style="color:var(--text-muted);">No</td></tr>
+                  <tr><td><span class="badge badge-http-get">GET</span></td><td><code>/api/notifications</code></td><td>List all system notifications</td><td style="color:var(--text-muted);">No</td></tr>
+                  <tr><td><span class="badge badge-http-patch">PATCH</span></td><td><code>/api/notifications/{id}/read</code></td><td>Mark notification as read</td><td style="color:var(--text-muted);">No</td></tr>
+                  <tr><td><span class="badge badge-http-post">POST</span></td><td><code>/api/notifications/mark-all-read</code></td><td>Bulk mark all notifications read</td><td style="color:var(--text-muted);">No</td></tr>
+                  <tr><td><span class="badge badge-http-get">GET</span></td><td><code>/api/health</code></td><td>Server health check with JVM memory metrics</td><td style="color:var(--text-muted);">No</td></tr>
+                  <tr><td><span class="badge badge-http-post">POST</span></td><td><code>/api/health/reset-demo</code></td><td>Reload demo seed data</td><td style="color:var(--text-muted);">No</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     MODALS
+═════════════════════════════════════════════════════════════ -->
+
+<!-- MODAL: Confirm Leave Apply -->
+<div class="modal-backdrop" id="modal-apply-confirm" role="dialog" aria-modal="true" aria-labelledby="modal-apply-title">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <h3 id="modal-apply-title">Confirm Leave Application</h3>
+        <p class="modal-subtitle">Please review the details before submitting.</p>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-apply-confirm')" aria-label="Close confirm modal">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <div class="modal-body" id="apply-confirm-body"></div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-apply-confirm')">Cancel</button>
+      <button class="btn btn-primary" id="btn-confirm-submit">
+        <i data-lucide="check"></i>
+        <span>Confirm &amp; Submit</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Leave Details -->
+<div class="modal-backdrop" id="modal-leave-details" role="dialog" aria-modal="true" aria-labelledby="modal-details-title">
+  <div class="modal-box modal-lg">
+    <div class="modal-header">
+      <h3 id="modal-details-title">Leave Request Details</h3>
+      <button class="modal-close" onclick="closeModal('modal-leave-details')" aria-label="Close details modal">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <!-- Stepper -->
+      <div class="stepper" id="details-stepper" aria-label="Leave status progress"></div>
+      <!-- Content -->
+      <div id="details-content" style="display:flex;flex-direction:column;gap:12px;font-size:0.88rem;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-leave-details')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Delete Employee Confirmation -->
+<div class="modal-backdrop" id="modal-delete-confirm" role="dialog" aria-modal="true" aria-labelledby="modal-delete-title">
+  <div class="modal-box modal-sm">
+    <div class="modal-header">
+      <div>
+        <h3 id="modal-delete-title" style="color:var(--accent-rose);">Delete Employee Profile</h3>
+        <p class="modal-subtitle">This action cannot be undone.</p>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-delete-confirm')" aria-label="Close delete confirmation">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="alert-banner error">
+        <i data-lucide="alert-triangle"></i>
+        <span>This will permanently delete the employee and all associated leave records.</span>
+      </div>
+      <p id="delete-confirm-text" style="font-size:0.88rem;color:var(--text-secondary);"></p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-delete-confirm')">Cancel</button>
+      <button class="btn btn-danger" id="btn-confirm-delete">
+        <i data-lucide="trash-2"></i>
+        <span>Delete Profile</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Add / Edit Employee -->
+<div class="modal-backdrop" id="modal-employee-form" role="dialog" aria-modal="true" aria-labelledby="modal-emp-title">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="modal-emp-title">Add New Employee</h3>
+      <button class="modal-close" onclick="closeModal('modal-employee-form')" aria-label="Close employee form">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <form id="emp-form" class="form-stack" novalidate>
+      <div class="modal-body">
+        <input type="hidden" id="emp-id">
+        <div class="form-group">
+          <label class="form-label" for="emp-name">Full Name <span class="required" aria-hidden="true">*</span></label>
+          <input type="text" id="emp-name" class="form-control" placeholder="e.g. Priya Sharma" required aria-required="true" minlength="2">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="emp-email">Corporate Email <span class="required" aria-hidden="true">*</span></label>
+          <input type="email" id="emp-email" class="form-control" placeholder="e.g. priya@company.com" required aria-required="true">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="emp-dept">Department <span class="required" aria-hidden="true">*</span></label>
+          <input type="text" id="emp-dept" class="form-control" placeholder="e.g. Engineering" required aria-required="true">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="emp-desig">Designation <span class="required" aria-hidden="true">*</span></label>
+          <input type="text" id="emp-desig" class="form-control" placeholder="e.g. Senior Developer" required aria-required="true">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('modal-employee-form')">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="btn-save-emp">
+          <i data-lucide="check"></i>
+          <span id="emp-save-label">Save Employee</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: Manager Decision Remarks -->
+<div class="modal-backdrop" id="modal-remarks" role="dialog" aria-modal="true" aria-labelledby="modal-remarks-title">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="modal-remarks-title">Review Leave Application</h3>
+      <button class="modal-close" onclick="closeModal('modal-remarks')" aria-label="Close remarks modal">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <form id="remarks-form" class="form-stack" novalidate>
+      <div class="modal-body">
+        <input type="hidden" id="remarks-leave-id">
+        <input type="hidden" id="remarks-target-status">
+        <div class="sub-panel" id="remarks-preview" style="font-size:0.86rem;"></div>
+        <div class="form-group">
+          <label class="form-label" for="remarks-text">Manager Remarks <span style="color:var(--text-muted);font-weight:500;">(Optional)</span></label>
+          <textarea id="remarks-text" class="form-control" rows="3"
+                    placeholder="e.g. Approved. Please complete handover before departure."
+                    maxlength="500"></textarea>
+          <div class="char-counter"><span id="remarks-char">0</span> / 500</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('modal-remarks')">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="btn-confirm-decision">
+          <i data-lucide="check-circle-2"></i>
+          <span id="remarks-btn-label">Confirm Decision</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: Email Preview (Notification Viewer) -->
+<div class="modal-backdrop" id="modal-email" role="dialog" aria-modal="true" aria-labelledby="email-modal-subject">
+  <div class="modal-box modal-lg">
+    <div class="modal-header">
+      <div>
+        <span style="font-size:0.68rem;font-weight:800;color:var(--accent-indigo);text-transform:uppercase;letter-spacing:0.08em;">EMAIL SIMULATION</span>
+        <h3 id="email-modal-subject">Leave Notification</h3>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-email')" aria-label="Close email preview">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="sub-panel" style="font-size:0.8rem;display:flex;flex-direction:column;gap:4px;">
+        <div><strong>From:</strong> <span id="email-from">LeaveFlow System &lt;no-reply@leaveflow.org&gt;</span></div>
+        <div><strong>To:</strong> <span id="email-to">employee@company.com</span></div>
+        <div><strong>Date:</strong> <span id="email-date">—</span></div>
+      </div>
+      <div id="email-body" style="padding:16px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-md);font-size:0.88rem;line-height:1.65;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-email')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Server Health Telemetry -->
+<div class="modal-backdrop" id="modal-health" role="dialog" aria-modal="true" aria-labelledby="health-modal-title">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div style="display:flex;align-items:center;gap:9px;">
+        <i data-lucide="activity" style="color:var(--accent-green);width:20px;height:20px;"></i>
+        <h3 id="health-modal-title">Server Health Telemetry</h3>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-health')" aria-label="Close health modal">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div id="health-status-banner" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.28);border-radius:var(--radius-md);color:var(--accent-green);font-size:0.88rem;font-weight:700;">
+        <span class="status-dot" id="health-modal-dot"></span>
+        <span id="health-modal-status">Server Status: UP (Operational)</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="sub-panel" style="display:flex;flex-direction:column;gap:4px;">
+          <span style="font-size:0.68rem;text-transform:uppercase;font-weight:700;letter-spacing:0.06em;color:var(--text-muted);">Database</span>
+          <strong id="health-db" style="font-size:0.94rem;color:var(--text-primary);">H2 (Connected)</strong>
+        </div>
+        <div class="sub-panel" style="display:flex;flex-direction:column;gap:4px;">
+          <span style="font-size:0.68rem;text-transform:uppercase;font-weight:700;letter-spacing:0.06em;color:var(--text-muted);">Latency</span>
+          <strong id="health-ping" style="font-size:0.94rem;color:var(--accent-blue);">— ms</strong>
+        </div>
+        <div class="sub-panel" style="display:flex;flex-direction:column;gap:4px;">
+          <span style="font-size:0.68rem;text-transform:uppercase;font-weight:700;letter-spacing:0.06em;color:var(--text-muted);">Profile</span>
+          <strong id="health-profile" style="font-size:0.94rem;color:var(--accent-purple);">dev</strong>
+        </div>
+        <div class="sub-panel" style="display:flex;flex-direction:column;gap:4px;">
+          <span style="font-size:0.68rem;text-transform:uppercase;font-weight:700;letter-spacing:0.06em;color:var(--text-muted);">Uptime</span>
+          <strong id="health-uptime" style="font-size:0.94rem;color:var(--text-primary);">—</strong>
+        </div>
+      </div>
+      <div class="sub-panel">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:0.8rem;">
+          <span style="color:var(--text-secondary);font-weight:600;">JVM Heap Memory</span>
+          <strong id="health-mem-text" style="color:var(--text-primary);">— MB / — MB</strong>
+        </div>
+        <div class="progress-bar" style="height:7px;">
+          <div class="progress-fill fill-blue" id="health-mem-bar" style="width:30%;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="btn-probe-health">
+        <i data-lucide="refresh-cw"></i>
+        <span>Re-probe</span>
+      </button>
+      <button class="btn btn-primary" onclick="closeModal('modal-health')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TOAST CONTAINER ══ -->
+<div class="toast-stack" id="toast-stack" role="region" aria-live="polite" aria-label="Notifications"></div>
+
+<!-- App Script -->
+<script src="/js/app.js"></script>
+</body>
+</html>

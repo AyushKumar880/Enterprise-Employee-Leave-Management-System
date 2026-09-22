@@ -1,0 +1,253 @@
+{
+	"info": {
+		"_postman_id": "8f883651-789a-4122-b5e1-88f572a6a12b",
+		"name": "Employee Leave Management System",
+		"description": "Comprehensive Postman collection for Employee Leave Management REST API (Spring Boot 3 + JPA + MySQL/H2)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Employees",
+			"item": [
+				{
+					"name": "Get All Employees",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/employees",
+							"host": ["{{base_url}}"],
+							"path": ["api", "employees"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Employees by Department",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/employees?department=IT Engineering",
+							"host": ["{{base_url}}"],
+							"path": ["api", "employees"],
+							"query": [
+								{
+									"key": "department",
+									"value": "IT Engineering"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Employee by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/employees/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "employees", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Employee",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Aliva Sharma\",\n  \"email\": \"aliva.new@example.com\",\n  \"department\": \"IT Engineering\",\n  \"designation\": \"Software Engineer\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/employees",
+							"host": ["{{base_url}}"],
+							"path": ["api", "employees"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Employee",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Aliva Sharma\",\n  \"email\": \"aliva@example.com\",\n  \"department\": \"IT Engineering\",\n  \"designation\": \"Senior Software Engineer\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/employees/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "employees", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Employee",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/employees/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "employees", "1"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Leaves",
+			"item": [
+				{
+					"name": "Get All Leaves",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/leaves",
+							"host": ["{{base_url}}"],
+							"path": ["api", "leaves"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pending Leaves (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/leaves/pending",
+							"host": ["{{base_url}}"],
+							"path": ["api", "leaves", "pending"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Leave by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/leaves/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "leaves", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Leaves by Employee ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/leaves/employee/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "leaves", "employee", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Apply for Leave",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"startDate\": \"2026-09-20\",\n  \"endDate\": \"2026-09-22\",\n  \"reason\": \"Attending tech conference and personal errands\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/leaves/employee/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "leaves", "employee", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Approve Leave (Status Update)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/leaves/1/status?status=APPROVED",
+							"host": ["{{base_url}}"],
+							"path": ["api", "leaves", "1", "status"],
+							"query": [
+								{
+									"key": "status",
+									"value": "APPROVED"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reject Leave (Status Update)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/leaves/1/status?status=REJECTED",
+							"host": ["{{base_url}}"],
+							"path": ["api", "leaves", "1", "status"],
+							"query": [
+								{
+									"key": "status",
+									"value": "REJECTED"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Leave Request",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/leaves/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "leaves", "1"]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080"
+		}
+	]
+}
